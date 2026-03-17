@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "oJ/zCDzh0WA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ms\\Desktop\\tec-web1\\Love4ANIMALS\\love4ANIMALS\\love4animalss\\love4animalss.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ms\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.5\\microsoft.aspnetcore.openapi.9.0.5.nupkg.sha512",
+    "C:\\Users\\ms\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
