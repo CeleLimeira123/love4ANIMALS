@@ -1,22 +1,25 @@
 using love4animalss.Interfaces;
-using love4animalss.Models;
+using love4animalss.Models; 
 
 namespace love4animalss.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private List<User> Users { get; set; }
+    private readonly User _user;
 
     public UserRepository()
     {
-        this.Users = new List<User>();
-         User newUser = new User(1, "Celeste", "test@gmail.com");
-        
-        this.Users.Add(newUser);
+       
+        _user = new User 
+        { 
+            Id = 1, 
+            Name = "Celeste", 
+            Email = "celeste@ucb.edu.bo" 
+        };
     }
 
     public User getUser()
     {
-         return this.Users.First();
+        return _user;
     }
 }
