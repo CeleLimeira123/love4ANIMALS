@@ -6,6 +6,11 @@ public class Campaign
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal GoalAmount { get; set; }
+
+    
+    public Campaign() { }
+
+   
     public Campaign(int id, string title, string description, decimal goalAmount)
     {
         Id = id;

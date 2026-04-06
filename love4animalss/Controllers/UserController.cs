@@ -1,27 +1,35 @@
 using love4animalss.Interfaces;
+using love4animalss.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace love4animalss.Controllers;
 
 [ApiController]
-[Route("v1/users")] 
+[Route("v1/users")]
 public class UserController : ControllerBase
 {
-    private readonly IUserService _userService;
-    public UserController(IUserService userService)
-    {
-        _userService = userService;
-    }
-    [HttpGet("profile")]
-    public IActionResult GetUserProfile()
-    {
-        var user = _userService.GetUser();
-        
-        if (user == null)
-        {
-            return NotFound(new { message = "Usuario no encontrado" });
-        }
+    private readonly IUserRepository _userRepository;
 
-        return Ok(user);
+    public UserController(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
+
+    [HttpGet] 
+    public IActionResult GetUsers() => Ok(_userRepository.GetAll());
+
+    [HttpPost("register")] 
+    public IActionResult Register([FromBody] CreateUserDto userDto)
+    {
+        if (userDto == null) return BadRequest();
+        _userRepository.Add(userDto);
+        return Ok(new { message = "Usuario registrado con éxito", data = userDto });
+    }
+
+    [HttpDelete("{id}")] 
+    public IActionResult DeleteUser(int id)
+    {
+        _userRepository.Delete(id);
+        return Ok(new { message = $"Usuario {id} eliminado" });
     }
 }

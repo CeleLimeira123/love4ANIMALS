@@ -12,11 +12,12 @@ public class UserService : IUserService
     {
         _userRepository = userRepository;
     }
-
-    public GetUserDto GetUser()
+public GetUserDto GetUserProfile() 
     {
         
-        User getUser = _userRepository.getUser();
+        var allUsers = _userRepository.GetAll();
+        var getUser = allUsers.First(); 
+
         var response = new GetUserDto(
             getUser.Id, 
             getUser.Name, 
@@ -24,5 +25,10 @@ public class UserService : IUserService
         );
 
         return response;
+    }
+    public void CreateUser(CreateUserDto userDto)
+    {
+      
+        Console.WriteLine($"Preparando registro para: {userDto.Name}");
     }
 }

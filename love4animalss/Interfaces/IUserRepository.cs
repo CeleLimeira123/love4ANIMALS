@@ -1,8 +1,10 @@
-using love4animalss.Models;
+using love4animalss.Dtos;
 
 namespace love4animalss.Interfaces;
 
 public interface IUserRepository
 {
-    User getUser(); 
+    IEnumerable<GetUserDto> GetAll(); 
+    void Add(CreateUserDto userDto);
+    void Delete(int id);
 }
