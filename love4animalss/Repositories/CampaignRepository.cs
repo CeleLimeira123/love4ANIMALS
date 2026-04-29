@@ -1,4 +1,3 @@
-using love4animalss.Dtos;
 using love4animalss.Interfaces;
 using love4animalss.Models;
 
@@ -6,45 +5,40 @@ namespace love4animalss.Repositories;
 
 public class CampaignRepository : ICampaignRepository
 {
-    
-    private static readonly List<Campaign> _campaigns = new List<Campaign>
+    private static readonly List<Campaign> _campaigns = new()
     {
-        new Campaign(1, "Rescate de perritos", "Fondo para alimento", 500.00m),
-        new Campaign(2, "Campaña de Vacunación", "Vacunas para refugios", 1000.00m)
+        new Campaign { Id = 1, Title = "Rescate Cochabamba", Description = "Ayuda para refugios", GoalAmount = 5000 },
+        new Campaign { Id = 2, Title = "Campaña de Vacunación", Description = "Vacunas para perros callejeros", GoalAmount = 2000 }
     };
 
-    public IEnumerable<GetCampaignDto> GetAll()
-    {
-        return _campaigns.Select(c => new GetCampaignDto(c.Id, c.Title, c.Description, c.GoalAmount));
-    }
-    public Campaign? GetById(int id)
-    {
-        return _campaigns.FirstOrDefault(c => c.Id == id);
-    }
+    public IEnumerable<Campaign> GetAll() => _campaigns;
 
-    public void Add(CreateCampaignDto campaignDto)
+    public Campaign? GetById(int id) => _campaigns.FirstOrDefault(c => c.Id == id);
+
+    public void Add(Campaign campaign)
     {
-        var newId = _campaigns.Any() ? _campaigns.Max(c => c.Id) + 1 : 1;
-        var campaign = new Campaign(newId, campaignDto.Title, campaignDto.Description, campaignDto.GoalAmount);
+        campaign.Id = _campaigns.Any() ? _campaigns.Max(c => c.Id) + 1 : 1;
         _campaigns.Add(campaign);
     }
 
-    public void Update(int id, UpdateCampaignDto campaignDto)
+    public void Update(Campaign campaign)
     {
-        var existing = _campaigns.FirstOrDefault(c => c.Id == id);
+        var existing = GetById(campaign.Id);
         if (existing != null)
         {
-            existing.Title = campaignDto.Title;
-            existing.Description = campaignDto.Description;
-            existing.GoalAmount = campaignDto.GoalAmount;
+            existing.Title = campaign.Title;
+            existing.Description = campaign.Description;
+            existing.GoalAmount = campaign.GoalAmount;
         }
     }
 
     public void Delete(int id)
     {
-        var campaign = _campaigns.FirstOrDefault(c => c.Id == id);
+        var campaign = GetById(id);
         if (campaign != null)
         {
+            DonationRepository.RemoveAllByCampaignId(id);
+
             _campaigns.Remove(campaign);
         }
     }

@@ -14,27 +14,33 @@ public class PostRepository : IPostRepository
     public void Add(Post post)
     {
         post.Id = _nextId++;
-        post.CreatedAt = DateTime.UtcNow;
+        if (post.CreatedAt == default) 
+        {
+            post.CreatedAt = DateTime.UtcNow;
+        }
         _posts.Add(post);
-        
     }
 
-   public void Update(Post post)
+    public void Update(Post post)
     {
-        var index = _posts.FindIndex(p => p.Id == post.Id);
-        if (index != -1)
+        var existingPost = _posts.FirstOrDefault(p => p.Id == post.Id);
+        if (existingPost != null)
         {
-            post.CreatedAt = _posts[index].CreatedAt; 
-            _posts[index] = post;
+            
+            post.CreatedAt = existingPost.CreatedAt;
+            existingPost.Title = post.Title;
+            existingPost.Content = post.Content;
+            existingPost.ImageUrl = post.ImageUrl; 
+            existingPost.CampaignId = post.CampaignId;
         }
     }
 
     public void Delete(int id) 
     {
-        var index = _posts.Find(p => p.Id == id);
-        if (index !=null)
+        var postToRemove = _posts.FirstOrDefault(p => p.Id == id);
+        if (postToRemove != null)
         {
-            _posts.Remove(index);
+            _posts.Remove(postToRemove);
         }
     }
 }

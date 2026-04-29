@@ -1,13 +1,13 @@
-using love4animalss.Dtos;
-using love4animalss.Models; 
-
+using love4animalss.Models;
+using love4animalss.Dtos; 
 namespace love4animalss.Interfaces;
 
 public interface ICampaignRepository
 { 
-    IEnumerable<GetCampaignDto> GetAll(); 
+    
+    IEnumerable<Campaign> GetAll(); 
     Campaign? GetById(int id); 
-    void Add(CreateCampaignDto campaignDto);
-    void Update(int id, UpdateCampaignDto campaignDto); 
+    void Add(Campaign campaign);     
+    void Update(Campaign campaign);   
     void Delete(int id);
 }
